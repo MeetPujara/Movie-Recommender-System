@@ -3,6 +3,29 @@ import streamlit as st
 import pandas as pd
 import requests
 import time
+import gdown 
+
+def download_pickle(file_id, output_path):
+    url = f"https://drive.google.com/uc?id={file_id}"
+    gdown.download(url, output_path, quiet=False)
+
+# --- Download and load .pkl files ---
+@st.cache_data
+def load_data():
+    # Replace with your actual Google Drive file IDs
+    movies_file_id = "1pFoB4MTtUVNwjHmn0-sPc5kIdAb6ixDM"
+    similarity_file_id = "1FMCAfDq2tsZjOokkBN4y_K2Wy6oIiLRG"
+
+    download_pickle(movies_file_id, "movies.pkl")
+    download_pickle(similarity_file_id, "similarity.pkl")
+
+    with open("movies.pkl", "rb") as f:
+        movies = pickle.load(f)
+
+    with open("similarity.pkl", "rb") as f:
+        similarity = pickle.load(f)
+
+    return movies, similarity
 
 # --- Fetch poster with error handling ---
 def fetch_poster(movie_id, retries=3):
@@ -43,9 +66,8 @@ def recommend(movie):
 
     return recommended_movie_names, recommended_movie_posters
 
-# --- Load model and data ---
-movies = pickle.load(open('movies.pkl', 'rb'))
-similarity = pickle.load(open('similarity.pkl', 'rb'))
+# --- Load data from Drive ---
+movies, similarity = load_data()
 
 # --- Page config and styling ---
 st.set_page_config(page_title="Movie Recommender", layout="wide", initial_sidebar_state="collapsed")
