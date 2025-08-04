@@ -43,8 +43,8 @@ This project implements a movie recommendation system using machine learning tec
 1.  **Clone the repository:**
 
     ```bash
-    git clone <repository_url>
-    cd <repository_directory>
+    git clone https://github.com/MeetPujara/Movie-Recommender-System
+    cd Movie-Recommender-System
     ```
 
 2.  **Install the required packages:**
